@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "outDir": "dist",
+    "strict": true,
+    "pretty": false,
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "declaration": false,
+    "stripInternal": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "esModuleInterop": true,
+    "strictNullChecks": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "downlevelIteration": false,
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": [
+      "./index.d.ts",
+      "node_modules/@types"
+    ]
+  },
+  "exclude": [
+    "dist",
+    "node_modules",
+  ]
+}
