@@ -1,8 +1,8 @@
 {
   "name": "sro-correios",
   "version": "1.0.0",
-  "description": "Biblioteca para rastrear objetos dos Correios com suporte a TypeScript",
-  "main": "index.js",
+  "description": "JavaScript library for tracking orders through Correios (BR)",
+  "main": "src/index.ts",
   "scripts": {
     "build": "rm -rf dist && tsc"
   },

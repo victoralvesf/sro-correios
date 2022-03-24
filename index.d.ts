@@ -17,7 +17,7 @@ declare module 'sro-correios' {
   }
 
   export interface Event {
-    locality: string
+    locality: string | null
     status: string
     origin: string
     destination: string | null
@@ -47,7 +47,18 @@ declare module 'sro-correios' {
       cidade: string
       uf: string
     }
+    nome: string
     tipo: string
+  }
+
+  export interface PostalType {
+    categoria: string
+    descricao: string
+  }
+
+  export interface CategoryType {
+    name: string
+    description: string
   }
 
   export function track (code: string): Promise<Tracking>

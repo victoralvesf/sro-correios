@@ -1,10 +1,10 @@
 import fetch from 'node-fetch'
 import capitalize from 'capitalize'
 
-import { Tracking, Correios, Event, CorreiosUnit } from 'sro-correios'
+import { Tracking, Correios, Event, CorreiosUnit, PostalType, CategoryType } from 'sro-correios'
 
 interface ParsedLocation {
-  locality: string
+  locality: string | null
   origin: string
 }
 
@@ -70,11 +70,13 @@ export class SroCorreios {
     const events: Event[] = []
 
     data.objetos[0].eventos.forEach(event => {
-      const { locality, origin } = this.parseLocation(event.unidade)
+      const locality: string | null = this.locationRules(event.unidade).locality
+      const origin: string | null = this.locationRules(event.unidade).origin
+
       let destination: string | null = null
 
       if (event.unidadeDestino !== undefined) {
-        destination = this.parseLocation(event.unidadeDestino).origin
+        destination = this.locationRules(event.unidadeDestino).origin
       }
 
       events.push({
@@ -90,21 +92,11 @@ export class SroCorreios {
 
     const isDelivered = lastEvent.status.includes('Objeto entregue')
 
-    const { tipoPostal: postalType } = data.objetos[0]
-    const name = capitalize(postalType?.categoria ?? 'Desconhecido')
-    let description = capitalize.words(postalType?.descricao ?? 'Não identificado')
-
-    if (!description.includes('identificado')) {
-      const postalCode = description.split(' ').filter(word => word.length === 2)[0]
-      description = description.replace(postalCode, postalCode.toUpperCase())
-    }
+    const category = this.parseCategory(data.objetos[0].tipoPostal)
 
     return {
       code,
-      category: {
-        name,
-        description
-      },
+      category,
       isDelivered,
       postedAt: firstEvent.trackedAt,
       updatedAt: lastEvent.trackedAt,
@@ -120,6 +112,45 @@ export class SroCorreios {
     return {
       locality,
       origin
+    }
+  }
+
+  private parseInternationalLocation (unit: CorreiosUnit): ParsedLocation {
+    const origin: string = capitalize.words(unit.nome)
+
+    return {
+      locality: null,
+      origin
+    }
+  }
+
+  private locationRules (unit: CorreiosUnit): ParsedLocation {
+    if (unit.tipo === 'País') {
+      return this.parseInternationalLocation(unit)
+    } else {
+      return this.parseLocation(unit)
+    }
+  }
+
+  private parseCategory (postalType: PostalType | undefined): CategoryType {
+    if (postalType === undefined) {
+      return {
+        name: 'Desconhecido',
+        description: 'Não identificado'
+      }
+    }
+
+    const name = capitalize.words(postalType?.categoria ?? 'Desconhecido')
+    let description = capitalize.words(postalType?.descricao ?? 'Não identificado')
+
+    if (!description.includes('identificado') && !description.includes('Internacional')) {
+      const postalCode = description.split(' ').filter(word => word.length === 2)[0]
+      description = description.replace(postalCode, postalCode.toUpperCase())
+    }
+
+    return {
+      name,
+      description
     }
   }
 
