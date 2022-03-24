@@ -1,11 +1,13 @@
 {
   "name": "sro-correios",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "JavaScript library for tracking orders through Correios (BR)",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "index.d.ts",
   "scripts": {
     "build": "rm -rf dist && tsc"
   },
+  "prepublish": "tsc",
   "keywords": [
     "Rastreio",
     "Correios",
