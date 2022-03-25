@@ -2,6 +2,14 @@
 
 **SroCorreios** is a JavaScript library for tracking orders through Correios (BR).
 
+[![npm version](https://badge.fury.io/js/sro-correios.svg)](https://www.npmjs.com/package/sro-correios)
+[![unpacked size](https://img.shields.io/badge/unpacked%20size-24.1%20kB-informational?color=%234AC41D)](https://www.npmjs.com/package/sro-correios)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat&color=%234AC41D)](https://github.com/victoralvesf/sro-correios/issues)
+[![License](https://img.shields.io/npm/l/sro-correios?color=%234AC41D)](https://github.com/victoralvesf/sro-correios/blob/master/LICENSE)
+[![types included](https://badgen.net/npm/types/sro-correios)](https://www.npmjs.com/package/sro-correios)
+
+[![https://nodei.co/npm/sro-correios.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/sro-correios.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/sro-correios)
+
 ## Installation
 
 Use the node package manager to install `sro-correios`.
