@@ -8,7 +8,7 @@
 [![License](https://img.shields.io/npm/l/sro-correios?color=%234AC41D)](https://github.com/victoralvesf/sro-correios/blob/master/LICENSE)
 [![types included](https://badgen.net/npm/types/sro-correios)](https://www.npmjs.com/package/sro-correios)
 
-[![https://nodei.co/npm/sro-correios.png](https://nodei.co/npm/sro-correios.png)](https://www.npmjs.com/package/sro-correios)
+<a href="https://www.npmjs.com/package/sro-correios"><img src="https://nodei.co/npm/sro-correios.png"></a>
 
 ## Installation
 
