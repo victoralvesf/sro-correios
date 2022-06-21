@@ -145,7 +145,9 @@ export class SroCorreios {
 
     if (!description.includes('identificado') && !description.includes('Internacional')) {
       const postalCode = description.split(' ').filter(word => word.length === 2)[0]
-      description = description.replace(postalCode, postalCode.toUpperCase())
+      if (postalCode !== undefined) {
+        description = description.replace(postalCode, postalCode.toUpperCase())
+      }
     }
 
     return {
