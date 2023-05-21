@@ -61,6 +61,10 @@ declare module 'sro-correios' {
     description: string
   }
 
+  export interface Login {
+    token: string
+  }
+
   export function track (code: string[]): Promise<Tracking[]>
   export function track (...codes: string[]): Promise<Tracking[]>
   export function isValidOrderCode (code: string): boolean
