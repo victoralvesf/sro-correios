@@ -65,6 +65,11 @@ declare module 'sro-correios' {
     token: string
   }
 
+  export interface HashSign {
+    sign: string
+    date: string
+  }
+
   export function track (code: string[]): Promise<Tracking[]>
   export function track (...codes: string[]): Promise<Tracking[]>
   export function isValidOrderCode (code: string): boolean

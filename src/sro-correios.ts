@@ -1,7 +1,8 @@
 import fetch from 'node-fetch'
 import capitalize from 'capitalize'
+import crypto from 'crypto'
 
-import { Tracking, Correios, Event, CorreiosUnit, PostalType, CategoryType, Login } from 'sro-correios'
+import { Tracking, Correios, Event, CorreiosUnit, PostalType, CategoryType, Login, HashSign } from 'sro-correios'
 
 interface ParsedLocation {
   locality: string | null
@@ -39,6 +40,8 @@ export class SroCorreios {
         }
       }
 
+      const hashSign = this.generateHashSign()
+
       const loginResponse = await fetch(this.loginUri(), {
         method: 'POST',
         headers: {
@@ -46,7 +49,9 @@ export class SroCorreios {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          requestToken: this.loginToken()
+          requestToken: this.loginToken(),
+          data: hashSign.date,
+          sign: hashSign.sign
         })
       })
       const { token }: Login = await loginResponse.json()
@@ -169,6 +174,19 @@ export class SroCorreios {
     }
   }
 
+  private generateHashSign (): HashSign {
+    const hash = crypto.createHash('md5')
+
+    const date = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }).replace(',', '')
+    const hashString = `requestToken${this.loginToken()}data${date}`
+    const sign = hash.update(hashString).digest('hex')
+
+    return {
+      sign,
+      date
+    }
+  }
+
   private uri (code: string): string {
     const baseUrl = this.decoder(`
       \x61\x48\x52\x30\x63\x48\x4d\x36\x4c\x79\x39\x77\x63
@@ -187,7 +205,7 @@ export class SroCorreios {
       \x5a\x57\x6c\x76\x63\x79\x35\x6a\x62\x32\x30\x75\x59\x6e
       \x49\x76\x64\x6a\x45\x76\x59\x58\x42\x77\x4c\x58\x5a\x68
       \x62\x47\x6c\x6b\x59\x58\x52\x70\x62\x32\x34\x3d
-    `)
+    `).replace('v1', 'v2')
     return url
   }
 
